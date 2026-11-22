@@ -17,6 +17,14 @@ PROBE_TIMEOUT = 1.0          # seconds, used by the scanner
 REQUEST_TIMEOUT = 10         # seconds, used by the coordinator
 MIN_FIELDS = 26              # /update returns >= 26 comma-separated fields
 
+# Charging-state logic (verified against the device firmware web UI):
+#   [6]  CHS          -> 0 = charging, 1 = charge complete
+#   [21] voltageInput -> PV (solar) input voltage
+# The firmware only exposes two CHS states and keeps reporting "charging"
+# when the PV voltage collapses at night, so we derive a third state.
+PV_VOLTAGE_INDEX = 21
+PV_NO_CHARGE_VOLTAGE = 5.0   # PV below this -> "not charging" (night / no sun)
+
 
 @dataclass(frozen=True)
 class MPPTSensorDef:
@@ -34,7 +42,7 @@ class MPPTSensorDef:
 SENSORS: tuple[MPPTSensorDef, ...] = (
     MPPTSensorDef("current_time", "当前时间", 0, icon="mdi:clock-outline"),
     MPPTSensorDef("run_time", "已运行时长", 1, icon="mdi:timer-outline"),
-    MPPTSensorDef("charge_status", "充电状态", 8, icon="mdi:battery-charging", transform="charge"),
+    MPPTSensorDef("charge_status", "充电状态", 6, icon="mdi:battery-charging", transform="charge"),
     MPPTSensorDef("fan_status", "风扇状态", 9, icon="mdi:fan", transform="fan"),
     MPPTSensorDef("daily_wh", "当日电量", 11, "Wh", "energy", "total", "mdi:solar-power", transform="float"),
     MPPTSensorDef("total_wh", "累计电量", 12, "Wh", "energy", "total", "mdi:solar-power-variant", transform="float"),

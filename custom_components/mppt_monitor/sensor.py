@@ -10,7 +10,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from . import MPPTCoordinator
-from .const import DOMAIN, MPPTSensorDef, SENSORS
+from .const import DOMAIN, MPPTSensorDef, SENSORS, PV_VOLTAGE_INDEX, PV_NO_CHARGE_VOLTAGE
 
 
 async def async_setup_entry(
@@ -72,6 +72,15 @@ class MPPTPowerSensor(CoordinatorEntity, SensorEntity):
             except (ValueError, TypeError):
                 return None
         if self._transform == "charge":
+            # No sun at night: PV voltage collapses and firmware still says
+            # "charging" (CHS=0), so treat low PV voltage as "未充电".
+            if len(data) > PV_VOLTAGE_INDEX:
+                try:
+                    pv_voltage = float(data[PV_VOLTAGE_INDEX])
+                except (ValueError, TypeError):
+                    pv_voltage = None
+                if pv_voltage is not None and pv_voltage < PV_NO_CHARGE_VOLTAGE:
+                    return "未充电"
             try:
                 state = int(float(raw))
             except (ValueError, TypeError):
