@@ -1,0 +1,69 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add MPPT Solar Controller",
+        "description": "Choose how to add the controller.",
+        "menu_options": {
+          "manual": "Enter IP address manually",
+          "scan": "Scan a network"
+        }
+      },
+      "manual": {
+        "title": "Add MPPT manually",
+        "description": "Enter the controller address and credentials.",
+        "data": {
+          "host": "IP address",
+          "name": "Name",
+          "username": "Username",
+          "password": "Password",
+          "scan_interval": "Refresh interval (seconds)"
+        }
+      },
+      "scan": {
+        "title": "Scan for MPPT controllers",
+        "description": "Scan an IPv4 network for controllers answering on port 88.",
+        "data": {
+          "network": "Network (CIDR)",
+          "username": "Username",
+          "password": "Password"
+        }
+      },
+      "select": {
+        "title": "Select a controller",
+        "description": "Choose one of the discovered controllers.",
+        "data": {
+          "host": "Controller",
+          "name": "Name",
+          "scan_interval": "Refresh interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect or invalid response",
+      "invalid_network": "Invalid network format",
+      "no_devices_found": "No MPPT controllers found"
+    },
+    "abort": {
+      "already_configured": "This controller is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "MPPT options",
+        "description": "Set how often Home Assistant polls the controller.",
+        "data": {
+          "scan_interval": "Refresh interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "restart": {
+        "name": "Restart controller"
+      }
+    }
+  }
+}

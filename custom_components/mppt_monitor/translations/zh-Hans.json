@@ -1,0 +1,69 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "添加 MPPT 太阳能充电控制器",
+        "description": "选择添加方式。",
+        "menu_options": {
+          "manual": "手动输入 IP 地址",
+          "scan": "扫描网段自动发现"
+        }
+      },
+      "manual": {
+        "title": "手动添加 MPPT",
+        "description": "填写控制器地址和登录信息。",
+        "data": {
+          "host": "IP 地址",
+          "name": "名称",
+          "username": "用户名",
+          "password": "密码",
+          "scan_interval": "刷新间隔（秒）"
+        }
+      },
+      "scan": {
+        "title": "扫描 MPPT 控制器",
+        "description": "扫描 IPv4 网段，查找 88 端口返回有效数据的控制器。",
+        "data": {
+          "network": "网段（CIDR）",
+          "username": "用户名",
+          "password": "密码"
+        }
+      },
+      "select": {
+        "title": "选择控制器",
+        "description": "从扫描结果中选择一个控制器。",
+        "data": {
+          "host": "控制器",
+          "name": "名称",
+          "scan_interval": "刷新间隔（秒）"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "无法连接或返回数据无效",
+      "invalid_network": "网段格式不正确",
+      "no_devices_found": "没有发现 MPPT 控制器"
+    },
+    "abort": {
+      "already_configured": "该控制器已添加"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "MPPT 选项",
+        "description": "设置 Home Assistant 拉取控制器数据的间隔。",
+        "data": {
+          "scan_interval": "刷新间隔（秒）"
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "restart": {
+        "name": "重启控制器"
+      }
+    }
+  }
+}
