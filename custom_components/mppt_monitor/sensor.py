@@ -10,7 +10,15 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from . import MPPTCoordinator
-from .const import DOMAIN, MPPTSensorDef, SENSORS, PV_VOLTAGE_INDEX, PV_NO_CHARGE_VOLTAGE
+from .const import (
+    DOMAIN,
+    MPPTSensorDef,
+    SENSORS,
+    PV_VOLTAGE_INDEX,
+    PV_NO_CHARGE_VOLTAGE,
+    BATTERY_VOLTAGE_INDEX,
+    BATTERY_NO_CHARGE_VOLTAGE,
+)
 
 
 async def async_setup_entry(
@@ -80,6 +88,15 @@ class MPPTPowerSensor(CoordinatorEntity, SensorEntity):
                 except (ValueError, TypeError):
                     pv_voltage = None
                 if pv_voltage is not None and pv_voltage < PV_NO_CHARGE_VOLTAGE:
+                    return "未充电"
+            # Flat / discharging battery: output (battery) voltage below the
+            # threshold is also "未充电", regardless of the CHS bit.
+            if len(data) > BATTERY_VOLTAGE_INDEX:
+                try:
+                    battery_voltage = float(data[BATTERY_VOLTAGE_INDEX])
+                except (ValueError, TypeError):
+                    battery_voltage = None
+                if battery_voltage is not None and battery_voltage < BATTERY_NO_CHARGE_VOLTAGE:
                     return "未充电"
             try:
                 state = int(float(raw))

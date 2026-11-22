@@ -18,12 +18,16 @@ REQUEST_TIMEOUT = 10         # seconds, used by the coordinator
 MIN_FIELDS = 26              # /update returns >= 26 comma-separated fields
 
 # Charging-state logic (verified against the device firmware web UI):
-#   [6]  CHS          -> 0 = charging, 1 = charge complete
-#   [21] voltageInput -> PV (solar) input voltage
+#   [6]  CHS           -> 0 = charging, 1 = charge complete
+#   [21] voltageInput  -> PV (solar) input voltage
+#   [24] voltageOutput -> battery / output voltage
 # The firmware only exposes two CHS states and keeps reporting "charging"
 # when the PV voltage collapses at night, so we derive a third state.
+# We also treat a low battery (output) voltage as "not charging".
 PV_VOLTAGE_INDEX = 21
-PV_NO_CHARGE_VOLTAGE = 5.0   # PV below this -> "not charging" (night / no sun)
+PV_NO_CHARGE_VOLTAGE = 5.0    # PV below this -> "not charging" (night / no sun)
+BATTERY_VOLTAGE_INDEX = 24
+BATTERY_NO_CHARGE_VOLTAGE = 20.0  # battery below this -> "not charging" (flat / discharging)
 
 
 @dataclass(frozen=True)
