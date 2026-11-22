@@ -1,5 +1,8 @@
 # MPPT Monitor for Home Assistant
 
+> **我为什么分享到社区**  
+> 一开始做这个集成，只是为了解决自己的问题：不想被云端和厂商 App 绑住，也不想每次改 YAML。后来发现，很多朋友其实都在踩同样的坑。我在社区里看了很多前辈的帖子、抄了很多作业，现在也该把自己跑通的东西整理出来还给大家。人人为我，我为人人——少一点重复折腾，多一点本地可控。欢迎拿去用、拿去改，也欢迎反馈问题。
+
 > 太阳能充电控制器（MPPT）原生接入 Home Assistant 的自定义集成。
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=qiyuetx&repository=mppt-monitor-hacs&category=integration)
@@ -7,6 +10,20 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 
 ![MPPT Monitor Logo](custom_components/mppt_monitor/logo.png)
+
+---
+
+## 集成页面与实体状态
+
+接入完成后，Home Assistant 中会出现独立的「MPPT Monitor 太阳能充电控制器」集成条目，下面挂 1 台设备和 14 个实体（13 个传感器 + 1 个重启按钮）。以下截图来自实际运行中的 HA 页面：
+
+![MPPT Monitor 集成详情页](docs/screenshots/mppt_integration_page.png)
+
+*集成详情页：显示「MPPT Monitor 太阳能充电控制器」、1 个设备、14 个实体，可直接进入设备与实体列表。*
+
+![MPPT Monitor 设备详情页](docs/screenshots/mppt_device_page.png)
+
+*设备详情页：充电状态、当前时间、当日电量、风扇状态、累计电量、散热器温度、输入/输出电参，以及重启控制器按钮一目了然。*
 
 ---
 
